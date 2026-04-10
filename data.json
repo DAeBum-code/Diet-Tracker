@@ -1,0 +1,303 @@
+{
+  "goals": {
+    "calories": 1700,
+    "carb": 190,
+    "protein": 100,
+    "fat": 55,
+    "water": 8
+  },
+  "entries": {
+    "2026-04-09": [
+      {
+        "type": "water",
+        "id": 1775733661947,
+        "time": "오후 08:21"
+      },
+      {
+        "type": "water",
+        "id": 1775733662305,
+        "time": "오후 08:21"
+      },
+      {
+        "type": "water",
+        "id": 1775733662763,
+        "time": "오후 08:21"
+      },
+      {
+        "type": "food",
+        "name": "아메리카노",
+        "cal": 5,
+        "carb": 0,
+        "protein": 0,
+        "fat": 0,
+        "id": 1775733677371,
+        "time": "오후 08:21"
+      },
+      {
+        "type": "food",
+        "name": "밥 1공기",
+        "cal": 300,
+        "carb": 66,
+        "protein": 5,
+        "fat": 0.5,
+        "id": 1775733682294,
+        "time": "오후 08:21"
+      },
+      {
+        "type": "food",
+        "name": "소고기 미역국",
+        "cal": 150,
+        "carb": 5,
+        "protein": 15,
+        "fat": 8,
+        "id": 1775733705590,
+        "time": "오후 08:21"
+      },
+      {
+        "type": "food",
+        "name": "나물반찬",
+        "cal": 100,
+        "carb": 12,
+        "protein": 5,
+        "fat": 5,
+        "id": 1775733737278,
+        "time": "오후 08:22"
+      },
+      {
+        "type": "food",
+        "name": "김치",
+        "cal": 20,
+        "carb": 3,
+        "protein": 0,
+        "fat": 0,
+        "id": 1775733753522,
+        "time": "오후 08:22"
+      },
+      {
+        "type": "food",
+        "name": "케이크 한입",
+        "cal": 60,
+        "carb": 7,
+        "protein": 1,
+        "fat": 3,
+        "id": 1775733769648,
+        "time": "오후 08:22"
+      },
+      {
+        "type": "food",
+        "name": "알리오 올리오 + 삶은계랑 1.5개",
+        "cal": 550,
+        "carb": 40,
+        "protein": 30,
+        "fat": 30,
+        "id": 1775733796305,
+        "time": "오후 08:23"
+      },
+      {
+        "type": "food",
+        "name": "딸기 6알",
+        "cal": 30,
+        "carb": 8,
+        "protein": 0.5,
+        "fat": 0,
+        "id": 1775733825089,
+        "time": "오후 08:23"
+      },
+      {
+        "type": "water",
+        "id": 1775736552561,
+        "time": "오후 09:09"
+      },
+      {
+        "type": "water",
+        "id": 1775747245808,
+        "time": "오전 12:07"
+      },
+      {
+        "type": "water",
+        "id": 1775747246380,
+        "time": "오전 12:07"
+      }
+    ],
+    "2026-04-10": [
+      {
+        "type": "water",
+        "id": 1775780282428,
+        "time": "오전 09:18"
+      },
+      {
+        "type": "water",
+        "id": 1775786464950,
+        "time": "오전 11:01"
+      },
+      {
+        "type": "food",
+        "name": "그릭요거트",
+        "cal": 100,
+        "carb": 4,
+        "protein": 17,
+        "fat": 0.7,
+        "id": 1775788424100,
+        "time": "오전 11:33"
+      },
+      {
+        "type": "food",
+        "name": "바나나 1개",
+        "cal": 93,
+        "carb": 24,
+        "protein": 1,
+        "fat": 0.3,
+        "id": 1775788427369,
+        "time": "오전 11:33"
+      },
+      {
+        "type": "food",
+        "name": "딸기 3알",
+        "cal": 15,
+        "carb": 4,
+        "protein": 0,
+        "fat": 0,
+        "id": 1775788466500,
+        "time": "오전 11:34"
+      },
+      {
+        "type": "food",
+        "name": "아메리카노",
+        "cal": 5,
+        "carb": 0,
+        "protein": 0,
+        "fat": 0,
+        "id": 1775799643465,
+        "time": "오후 02:40"
+      },
+      {
+        "type": "food",
+        "name": "소/돼지 수육",
+        "cal": 280,
+        "carb": 0,
+        "protein": 30,
+        "fat": 18,
+        "id": 1775841121385,
+        "time": "오전 02:12"
+      },
+      {
+        "type": "food",
+        "name": "갈비탕",
+        "cal": 120,
+        "carb": 3,
+        "protein": 12,
+        "fat": 7,
+        "id": 1775841138868,
+        "time": "오전 02:12"
+      },
+      {
+        "type": "food",
+        "name": "비빔냉면",
+        "cal": 130,
+        "carb": 28,
+        "protein": 3,
+        "fat": 2,
+        "id": 1775841151387,
+        "time": "오전 02:12"
+      },
+      {
+        "type": "food",
+        "name": "녹두전",
+        "cal": 90,
+        "carb": 8,
+        "protein": 4,
+        "fat": 5,
+        "id": 1775841164160,
+        "time": "오전 02:12"
+      },
+      {
+        "type": "food",
+        "name": "카페라떼",
+        "cal": 150,
+        "carb": 12,
+        "protein": 6,
+        "fat": 8,
+        "id": 1775841199949,
+        "time": "오전 02:13"
+      },
+      {
+        "type": "water",
+        "id": 1775841204141,
+        "time": "오전 02:13"
+      },
+      {
+        "type": "water",
+        "id": 1775841204647,
+        "time": "오전 02:13"
+      },
+      {
+        "type": "water",
+        "id": 1775841207851,
+        "time": "오전 02:13"
+      }
+    ]
+  },
+  "checks": {
+    "2026-04-09": {
+      "supplement": true,
+      "lunchLog": true,
+      "dinnerLog": true,
+      "snack": true,
+      "stretch": true,
+      "workout": true
+    },
+    "2026-04-10": {
+      "lunchLog": true,
+      "supplement": true,
+      "dinnerLog": true,
+      "snack": true,
+      "stretch": true,
+      "workout": true
+    }
+  },
+  "inbody": {
+    "2026-04-09": {
+      "weight": 56.7,
+      "fatPct": 31.9,
+      "muscle": 20.86,
+      "bmi": 22.4,
+      "fatKg": 18.09,
+      "bmr": 1204
+    },
+    "2026-04-10": {
+      "weight": 56.2,
+      "fatPct": 28.7,
+      "muscle": 21.76,
+      "bmi": 22.2,
+      "fatKg": 16.13,
+      "bmr": 1235
+    }
+  },
+  "memos": {
+    "2026-04-10": "역시 바쁘고 약속이 있어야 덜 먹나? 싶다!"
+  },
+  "snackChips": {},
+  "exerciseChips": {
+    "2026-04-09": {
+      "스쿼트": true,
+      "복부B": true,
+      "유산소A": true,
+      "티파니 옆구리": true,
+      "스트레칭": true
+    },
+    "2026-04-10": {
+      "출퇴근 계단": true,
+      "스쿼트": true,
+      "스트레칭": true,
+      "허벅지": true,
+      "복부A": true
+    }
+  },
+  "exerciseMemo": {},
+  "ratings": {
+    "2026-04-09": "good",
+    "2026-04-10": "good"
+  },
+  "lunchActual": {},
+  "dinnerActual": {}
+}
