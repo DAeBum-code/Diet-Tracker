@@ -250,7 +250,7 @@ function DietTracker() {
     setGhStatus("loading"); setGhMsg("connecting...");
     try {
       const r = await fetch(`https://api.github.com/repos/${GH_REPO}`, { headers: ghH(tok) });
-      if (r.ok) { setGhToken(tok); localStorage.setItem("gh-token", tok); setGhStatus("ok"); setGhMsg("ok"); }
+      if (r.ok) { setGhToken(tok); localStorage.setItem("gh-token", tok); setGhStatus("ok"); setGhMsg("connected!"); }
       else { setGhStatus("error"); setGhMsg("token error"); }
     } catch(e) { setGhStatus("error"); setGhMsg("failed: " + e.message); }
   };
@@ -258,13 +258,13 @@ function DietTracker() {
     setGhStatus("loading"); setGhMsg("loading...");
     try {
       const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, { headers: ghH() });
-      if (r.status === 404) { setGhStatus("ok"); setGhMsg("no data yet"); return; }
+      if (r.status === 404) { setGhStatus("ok"); setGhMsg("no saved data yet"); return; }
       if (!r.ok) throw new Error(r.status);
       const d = await r.json();
       setGhSha(d.sha);
-      const parsed = JSON.parse(atob(d.content.replace(/\n/g, "")));
+      const parsed = JSON.parse(decodeURIComponent(atob(d.content.replace(/\n/g, ""))));
       setData({...EMPTY_DATA, ...parsed, goals: {...EMPTY_DATA.goals, ...(parsed.goals||{})}});
-      setGhStatus("ok"); setGhMsg("loaded!"); setTimeout(() => setGhMsg(""), 3000);
+      setGhStatus("ok"); setGhMsg("loaded! ✓"); setTimeout(() => setGhMsg(""), 3000);
     } catch(e) { setGhStatus("error"); setGhMsg("load failed: " + e.message); }
   };
   const ghSave = async () => {
@@ -275,13 +275,13 @@ function DietTracker() {
         const chk = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, { headers: ghH() });
         if (chk.ok) { const cd = await chk.json(); sha = cd.sha; setGhSha(cd.sha); }
       }
-      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+      const encoded = btoa(encodeURIComponent(JSON.stringify(data, null, 2)));
       const body = { message: "Update diet data", content: encoded };
       if (sha) body.sha = sha;
       const r = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`, { method: "PUT", headers: ghH(), body: JSON.stringify(body) });
       if (!r.ok) { const e = await r.json(); throw new Error(e.message); }
       const rd = await r.json(); setGhSha(rd.content.sha);
-      setGhStatus("ok"); setGhMsg("saved!"); setTimeout(() => setGhMsg(""), 3000);
+      setGhStatus("ok"); setGhMsg("saved! ✓"); setTimeout(() => setGhMsg(""), 3000);
     } catch(e) { setGhStatus("error"); setGhMsg("save failed: " + e.message); }
   };
   const ghDisconnect = () => { setGhToken(""); setGhInput(""); setGhSha(null); setGhStatus("idle"); setGhMsg(""); try { localStorage.removeItem("gh-token"); } catch(e) {} };
@@ -290,7 +290,7 @@ function DietTracker() {
   useEffect(() => {
     (async () => {
       try {
-        const _r = localStorage.getItem("diet-tracker-all"); const r = _r ? {value:_r} : null;
+        const _raw = localStorage.getItem("diet-tracker-all"); const _r = _raw ? ((_raw.startsWith("%") || _raw.startsWith("{") === false) ? decodeURIComponent(_raw) : _raw) : null; const r = _r ? {value:_r} : null;
         if (r && r.value) {
           const parsed = JSON.parse(r.value);
           setData({...EMPTY_DATA, ...parsed, goals:{...EMPTY_DATA.goals, ...(parsed.goals||{})}});
@@ -303,7 +303,7 @@ function DietTracker() {
   useEffect(() => {
     if (!loaded) return;
     const t = setTimeout(async () => {
-      try { localStorage.setItem("diet-tracker-all", JSON.stringify(data)); }
+      try { localStorage.setItem("diet-tracker-all", encodeURIComponent(JSON.stringify(data))); }
       catch(e) { console.log("save:", e); }
     }, 500);
     return () => clearTimeout(t);
@@ -799,7 +799,7 @@ function DietTracker() {
                     </button>
                   </div>
                   {ghMsg && <div style={{fontSize:11,marginTop:8,padding:"6px 10px",borderRadius:8,background:ghStatus==="error"?"rgba(239,68,68,0.08)":"rgba(16,185,129,0.08)",color:ghStatus==="error"?"#fca5a5":"#6ee7b7"}}>{ghMsg}</div>}
-                  <div style={{fontSize:10,color:"rgba(255,255,255,0.2)",marginTop:8}}>{"Token is saved in this browser"}</div>
+                  <div style={{fontSize:10,color:"rgba(255,255,255,0.2)",marginTop:8}}>{"Token saved in this browser"}</div>
                 </div>
               ) : (
                 <div>
@@ -814,7 +814,7 @@ function DietTracker() {
                     </button>
                     <button onClick={ghDisconnect}
                       style={{...s.btn, padding:"10px 13px", fontSize:11, background:"rgba(239,68,68,0.08)", color:"#fca5a5", border:"1px solid rgba(239,68,68,0.2)"}}>
-                      {"X"}
+                      {"✕"}
                     </button>
                   </div>
                   {ghMsg && <div style={{fontSize:11,padding:"7px 10px",borderRadius:8,background:ghStatus==="error"?"rgba(239,68,68,0.08)":"rgba(16,185,129,0.08)",color:ghStatus==="error"?"#fca5a5":"#6ee7b7"}}>{ghMsg}</div>}
