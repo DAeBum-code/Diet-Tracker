@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>🥗 다이어트 30일</title>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#080b14;color:#fff;font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:rgba(255,255,255,0.1);outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#6366f1;cursor:pointer}
-input[type=date]{color-scheme:dark}
-::-webkit-scrollbar{width:0;height:0}
-a{color:inherit}
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
 </head>
-<body>
+<body style="margin:0;background:#080b14">
 <div id="root"></div>
-<script type="text/babel" data-presets="react">
-const {useState,useEffect,useCallback} = React;
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
 
-const getToday=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
-const daysBetween=(a,b)=>Math.floor((new Date(b)-new Date(a))/86400000);
+const getToday = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
+const daysBetween = (a, b) => Math.floor((new Date(b) - new Date(a)) / 86400000);
 
-const PLAN_RAW=[
+const PLAN_RAW = [
   {d:"2026-04-09",wk:1,phase:"적응기",lunch:"일반식 (밥 -2숟갈)\n채소 먼저 먹기",dinner:"닭가슴살 + 샐러드 + 고구마 반개",exercise:["출퇴근 계단","스트레칭 20분","5. 티파니 옆구리"]},
   {d:"2026-04-10",wk:1,phase:"적응기",lunch:"일반식 (밥 -2숟갈)",dinner:"두부 + 계란2 + 채소",exercise:["출퇴근 계단","스쿼트 15×3","3. 복부A 5분"]},
   {d:"2026-04-11",wk:1,phase:"적응기",lunch:"일반식 (밥 -2숟갈)",dinner:"샐러드 + 계란2 + 과일",exercise:["출퇴근 계단","산책 1시간","5. 티파니 옆구리"]},
@@ -58,7 +53,7 @@ const PLAN_RAW=[
   {d:"2026-05-08",wk:4,phase:"마무리 스퍼트",lunch:"일반식 (밥 50%)\n마지막 날!",dinner:"가볍게 마무리",exercise:["출퇴근 계단","1. 유산소 30분","5. 티파니"]},
 ];
 
-const WEEK_GOALS={
+const WEEK_GOALS = {
   1:{calories:1700,carb:190,protein:100,fat:55,tip:"밥 살짝 줄이기 + 채소 먼저 습관 들이기"},
   2:{calories:1500,carb:160,protein:110,fat:50,tip:"탄수 본격 줄이고, 단백질 비중 높이기"},
   0:{calories:1600,carb:170,protein:105,fat:50,tip:"출장 중 유지! 체중 유지만 해도 성공"},
@@ -66,17 +61,17 @@ const WEEK_GOALS={
   4:{calories:1400,carb:140,protein:120,fat:45,tip:"마지막 스퍼트! 인바디 측정 준비"},
 };
 
-const WORKOUTS={
-  "1":{name:"유산소 전신 A",emoji:"🏃",color:"#f59e0b",yt:"https://www.youtube.com/watch?v=77JW8_zt2Rc"},
-  "1b":{name:"유산소 전신 B",emoji:"🔥",color:"#fb923c",yt:"https://www.youtube.com/watch?v=46vQnzaZ6aU"},
-  "2":{name:"허벅지 집중",emoji:"🦵",color:"#ec4899",yt:"https://www.youtube.com/watch?v=j95RmdIL8tU"},
-  "3":{name:"복부 A코스",emoji:"💪",color:"#ef4444",yt:"https://www.youtube.com/watch?v=USJgKSLxDRc"},
-  "4":{name:"복부 B코스",emoji:"🔥",color:"#8b5cf6",yt:"https://www.youtube.com/watch?v=7TLk7pscICk"},
-  "5":{name:"티파니 옆구리",emoji:"💃",color:"#06b6d4",yt:"https://www.youtube.com/watch?v=jpTQdM7okkI"},
+const WORKOUTS = {
+  "1":{name:"유산소 전신 A",emoji:"🏃",color:"#f59e0b",yt:"https://www.youtube.com/watch?v=77JW8_zt2Rc&list=PLcfYP_kwCZdeaODJytNDjDSwhdBAO7QBu&index=4"},
+  "1b":{name:"유산소 전신 B",emoji:"🔥",color:"#fb923c",yt:"https://www.youtube.com/watch?v=46vQnzaZ6aU&list=PLcfYP_kwCZdeaODJytNDjDSwhdBAO7QBu&index=11"},
+  "2":{name:"허벅지 집중",emoji:"🦵",color:"#ec4899",yt:"https://www.youtube.com/watch?v=j95RmdIL8tU&list=PLcfYP_kwCZdeaODJytNDjDSwhdBAO7QBu&index=4"},
+  "3":{name:"복부 A코스",emoji:"💪",color:"#ef4444",yt:"https://www.youtube.com/watch?v=USJgKSLxDRc&list=PLcfYP_kwCZdeaODJytNDjDSwhdBAO7QBu&index=8"},
+  "4":{name:"복부 B코스",emoji:"🔥",color:"#8b5cf6",yt:"https://www.youtube.com/watch?v=7TLk7pscICk&list=PLcfYP_kwCZdeaODJytNDjDSwhdBAO7QBu&index=6"},
+  "5":{name:"티파니 옆구리",emoji:"💃",color:"#06b6d4",yt:"https://www.youtube.com/watch?v=jpTQdM7okkI&list=PLcfYP_kwCZdeaODJytNDjDSwhdBAO7QBu&index=9"},
 };
 
-const EXERCISE_CHIPS=["출퇴근 계단","스트레칭","스쿼트","플랭크","산책","유산소A","유산소B","허벅지","복부A","복부B","티파니 옆구리"];
-const FOOD_PRESETS=[
+const EXERCISE_CHIPS = ["출퇴근 계단","스트레칭","스쿼트","플랭크","산책","유산소A","유산소B","허벅지","복부A","복부B","티파니 옆구리"];
+const FOOD_PRESETS = [
   {name:"밥 1공기",cal:300,carb:66,protein:5,fat:0.5},{name:"현미밥 1공기",cal:280,carb:58,protein:6,fat:1},
   {name:"밥 반공기",cal:150,carb:33,protein:2.5,fat:0.3},{name:"계란 1개",cal:80,carb:0.6,protein:6,fat:5},
   {name:"계란 2개",cal:160,carb:1.2,protein:12,fat:10},{name:"닭가슴살 100g",cal:109,carb:0,protein:23,fat:1.2},
@@ -90,25 +85,27 @@ const FOOD_PRESETS=[
   {name:"과자/빵",cal:250,carb:35,protein:3,fat:12},{name:"야식(라면류)",cal:500,carb:75,protein:10,fat:16},
   {name:"야식(치킨)",cal:400,carb:15,protein:30,fat:25},{name:"곤약젤리",cal:10,carb:2,protein:0,fat:0},
 ];
-const CHECKS_LIST=[
+const CHECKS_LIST = [
   {label:"영양제 복용",key:"supplement"},{label:"점심 식단 기록",key:"lunchLog"},{label:"저녁 식단 기록",key:"dinnerLog"},
   {label:"간식 절제",key:"snack"},{label:"스트레칭",key:"stretch"},{label:"운동 완료",key:"workout"},
 ];
 
-const defaultGoals={calories:1700,carb:190,protein:100,fat:55,water:8};
-const EMPTY_DATA={goals:{...defaultGoals},entries:{},checks:{},inbody:{},memos:{},snackChips:{},exerciseChips:{},exerciseMemo:{},ratings:{},lunchActual:{},dinnerActual:{}};
+const defaultGoals = {calories:1700,carb:190,protein:100,fat:55,water:8};
+const EMPTY_DATA = {goals:{...defaultGoals},entries:{},checks:{},inbody:{},memos:{},snackChips:{},exerciseChips:{},exerciseMemo:{},ratings:{},lunchActual:{},dinnerActual:{}};
 
-const s={
-  card:{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:16,padding:"16px 18px",marginBottom:12},
-  btn:{border:"none",cursor:"pointer",fontFamily:"inherit",borderRadius:10,fontWeight:600,transition:"all 0.2s"},
-  inp:{padding:"9px 12px",borderRadius:8,border:"1px solid rgba(255,255,255,0.1)",background:"rgba(255,255,255,0.05)",color:"#fff",fontSize:13,fontFamily:"inherit",boxSizing:"border-box"},
-  label:{fontSize:11,fontWeight:700,color:"rgba(255,255,255,0.5)",marginBottom:8},
-  sub:{fontSize:10,color:"rgba(255,255,255,0.35)",marginBottom:3},
+// ── Styles ──
+const s = {
+  card: {background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.06)",borderRadius:16,padding:"16px 18px",marginBottom:12},
+  btn: {border:"none",cursor:"pointer",fontFamily:"inherit",borderRadius:10,fontWeight:600,transition:"all 0.2s"},
+  inp: {padding:"9px 12px",borderRadius:8,border:"1px solid rgba(255,255,255,0.1)",background:"rgba(255,255,255,0.05)",color:"#fff",fontSize:13,fontFamily:"inherit",boxSizing:"border-box"},
+  label: {fontSize:11,fontWeight:700,color:"rgba(255,255,255,0.5)",marginBottom:8},
+  sub: {fontSize:10,color:"rgba(255,255,255,0.35)",marginBottom:3},
 };
 
-function Ring({value,max,size=92,stroke=8,color,children}){
-  const r=(size-stroke)/2,circ=2*Math.PI*r,pct=Math.min(value/(max||1),1),offset=circ*(1-pct),over=value>max;
-  return(
+// ── Sub Components ──
+function Ring({value,max,size=92,stroke=8,color,children}) {
+  const r=(size-stroke)/2, circ=2*Math.PI*r, pct=Math.min(value/(max||1),1), offset=circ*(1-pct), over=value>max;
+  return (
     <div style={{position:"relative",width:size,height:size,flexShrink:0}}>
       <svg width={size} height={size} style={{transform:"rotate(-90deg)"}}>
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke}/>
@@ -123,9 +120,9 @@ function Ring({value,max,size=92,stroke=8,color,children}){
   );
 }
 
-function MacroBar({label,value,max,color}){
-  const pct=Math.min((value/(max||1))*100,100);
-  return(
+function MacroBar({label,value,max,color}) {
+  const pct = Math.min((value/(max||1))*100,100);
+  return (
     <div style={{flex:1,minWidth:70}}>
       <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"rgba(255,255,255,0.5)",marginBottom:3}}>
         <span>{label}</span><span>{value}/{max}g</span>
@@ -137,8 +134,8 @@ function MacroBar({label,value,max,color}){
   );
 }
 
-function Chip({label,active,onClick,ac,ab,at}){
-  return(
+function Chip({label,active,onClick,ac,ab,at}) {
+  return (
     <button onClick={onClick} style={{
       padding:"7px 14px",borderRadius:20,fontSize:12,fontWeight:active?600:400,
       background:active?(ac||"rgba(16,185,129,0.15)"):"rgba(255,255,255,0.04)",
@@ -149,29 +146,32 @@ function Chip({label,active,onClick,ac,ab,at}){
   );
 }
 
-function CheckItem({label,checked,onChange}){
-  return(
+function CheckItem({label,checked,onChange}) {
+  return (
     <div onClick={onChange} style={{
       display:"flex",alignItems:"center",gap:10,padding:"9px 14px",borderRadius:10,cursor:"pointer",
       background:checked?"rgba(16,185,129,0.1)":"rgba(255,255,255,0.025)",
       border:checked?"1px solid rgba(16,185,129,0.2)":"1px solid rgba(255,255,255,0.05)",transition:"all 0.2s"
     }}>
-      <div style={{width:18,height:18,borderRadius:5,display:"flex",alignItems:"center",justifyContent:"center",
-        background:checked?"#10b981":"transparent",border:checked?"none":"2px solid rgba(255,255,255,0.15)",fontSize:11,color:"#fff"}}>{checked?"✓":""}</div>
+      <div style={{
+        width:18,height:18,borderRadius:5,display:"flex",alignItems:"center",justifyContent:"center",
+        background:checked?"#10b981":"transparent",border:checked?"none":"2px solid rgba(255,255,255,0.15)",fontSize:11,color:"#fff"
+      }}>{checked?"✓":""}</div>
       <span style={{fontSize:12,color:checked?"#6ee7b7":"rgba(255,255,255,0.55)",textDecoration:checked?"line-through":"none"}}>{label}</span>
     </div>
   );
 }
 
-function TodayRec({plan,type}){
-  if(!plan)return null;
-  const isTrip=plan.phase.includes("출장");
-  const accent=isTrip?"#fbbf24":"#818cf8";
-  const bg=isTrip?"rgba(245,158,11,0.06)":"rgba(99,102,241,0.05)";
-  const bd=isTrip?"rgba(245,158,11,0.15)":"rgba(99,102,241,0.12)";
-  const dn=daysBetween("2026-04-09",plan.d)+1;
-  if(type==="meal"){
-    return(
+function TodayRec({plan,type}) {
+  if (!plan) return null;
+  const isTrip = plan.phase.includes("출장");
+  const accent = isTrip ? "#fbbf24" : "#818cf8";
+  const bg = isTrip ? "rgba(245,158,11,0.06)" : "rgba(99,102,241,0.05)";
+  const bd = isTrip ? "rgba(245,158,11,0.15)" : "rgba(99,102,241,0.12)";
+  const dn = daysBetween("2026-04-09", plan.d) + 1;
+
+  if (type === "meal") {
+    return (
       <div style={{background:bg,border:`1px solid ${bd}`,borderRadius:14,padding:"14px 16px",marginBottom:12}}>
         <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
           <span style={{fontSize:11,fontWeight:700,color:accent}}>{"📋 Day "+dn+" 추천 식단"}</span>
@@ -190,179 +190,170 @@ function TodayRec({plan,type}){
       </div>
     );
   }
-  if(type==="exercise"){
-    const vi=plan.exercise.filter(e=>/^[1-5]\./.test(e));
-    const oi=plan.exercise.filter(e=>!/^[1-5]\./.test(e));
-    return(
+
+  if (type === "exercise") {
+    const vi = plan.exercise.filter(e => /^[1-5]\./.test(e));
+    const oi = plan.exercise.filter(e => !/^[1-5]\./.test(e));
+    return (
       <div style={{background:bg,border:`1px solid ${bd}`,borderRadius:14,padding:"14px 16px",marginBottom:12}}>
         <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
           <span style={{fontSize:11,fontWeight:700,color:accent}}>{"💪 Day "+dn+" 추천 운동"}</span>
           <span style={{fontSize:10,color:"rgba(255,255,255,0.3)"}}>{plan.phase}</span>
         </div>
-        {oi.length>0&&<div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:vi.length?8:0}}>
-          {oi.map((e,i)=><span key={i} style={{padding:"5px 12px",borderRadius:8,fontSize:11,background:"rgba(255,255,255,0.05)",color:"rgba(255,255,255,0.6)",border:"1px solid rgba(255,255,255,0.07)"}}>{e}</span>)}
-        </div>}
-        {vi.length>0&&<div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-          {vi.map((e,i)=>{
-            const num=e.charAt(0);const wo=WORKOUTS[num];
-            if(!wo)return<span key={i} style={{padding:"5px 12px",borderRadius:8,fontSize:11,background:"rgba(255,255,255,0.05)",color:"rgba(255,255,255,0.6)"}}>{e}</span>;
-            return<a key={i} href={wo.yt} target="_blank" rel="noopener noreferrer"
-              style={{padding:"5px 12px",borderRadius:8,fontSize:11,fontWeight:600,background:wo.color+"15",color:wo.color,border:`1px solid ${wo.color}30`,textDecoration:"none"}}>
-              {wo.emoji+" "+e}</a>;
-          })}
-        </div>}
+        {oi.length > 0 && (
+          <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:vi.length?8:0}}>
+            {oi.map((e,i) => (
+              <span key={i} style={{padding:"5px 12px",borderRadius:8,fontSize:11,background:"rgba(255,255,255,0.05)",color:"rgba(255,255,255,0.6)",border:"1px solid rgba(255,255,255,0.07)"}}>{e}</span>
+            ))}
+          </div>
+        )}
+        {vi.length > 0 && (
+          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+            {vi.map((e,i) => {
+              const num = e.charAt(0);
+              const wo = WORKOUTS[num];
+              if (!wo) return <span key={i} style={{padding:"5px 12px",borderRadius:8,fontSize:11,background:"rgba(255,255,255,0.05)",color:"rgba(255,255,255,0.6)"}}>{e}</span>;
+              return (
+                <a key={i} href={wo.yt} target="_blank" rel="noopener noreferrer"
+                  style={{padding:"5px 12px",borderRadius:8,fontSize:11,fontWeight:600,background:wo.color+"15",color:wo.color,border:`1px solid ${wo.color}30`,textDecoration:"none"}}>
+                  {wo.emoji+" "+e}
+                </a>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
   return null;
 }
 
-const GITHUB_REPO="DAeBum-code/Diet-Tracker";
-const GITHUB_FILE="data.json";
+// ── MAIN APP ──
+function DietTracker() {
+  const [data, setData] = useState(() => ({...EMPTY_DATA}));
+  const [tab, setTab] = useState("today");
+  const [selectedDate, setSelectedDate] = useState(getToday());
+  const [customFood, setCustomFood] = useState({name:"",cal:"",carb:"",protein:"",fat:""});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [planWeek, setPlanWeek] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
-function DietTracker(){
-  const [data,setData]=useState({...EMPTY_DATA});
-  const [tab,setTab]=useState("today");
-  const [selectedDate,setSelectedDate]=useState(getToday());
-  const [customFood,setCustomFood]=useState({name:"",cal:"",carb:"",protein:"",fat:""});
-  const [searchTerm,setSearchTerm]=useState("");
-  const [planWeek,setPlanWeek]=useState(null);
-  const [loaded,setLoaded]=useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        const _r = localStorage.getItem("diet-tracker-all"); const r = _r ? {value:_r} : null;
+        if (r && r.value) {
+          const parsed = JSON.parse(r.value);
+          setData({...EMPTY_DATA, ...parsed, goals:{...EMPTY_DATA.goals, ...(parsed.goals||{})}});
+        }
+      } catch(e) { console.log("load:", e); }
+      finally { setLoaded(true); }
+    })();
+  }, []);
 
-  // ── localStorage 저장 (GitHub 없을 때 백업) ──
-  useEffect(()=>{
-    try{const r=localStorage.getItem("diet-tracker-all");if(r){const p=JSON.parse(r);setData({...EMPTY_DATA,...p,goals:{...EMPTY_DATA.goals,...(p.goals||{})}});}}catch(e){}
-    setLoaded(true);
-  },[]);
+  useEffect(() => {
+    if (!loaded) return;
+    const t = setTimeout(async () => {
+      try { localStorage.setItem("diet-tracker-all", JSON.stringify(data)); }
+      catch(e) { console.log("save:", e); }
+    }, 500);
+    return () => clearTimeout(t);
+  }, [data, loaded]);
 
-  useEffect(()=>{
-    if(!loaded)return;
-    const t=setTimeout(()=>{try{localStorage.setItem("diet-tracker-all",JSON.stringify(data));}catch(e){}},500);
-    return()=>clearTimeout(t);
-  },[data,loaded]);
+  useEffect(() => {
+    if (planWeek === null) {
+      const tp = PLAN_RAW.find(p => p.d === getToday());
+      setPlanWeek(tp ? tp.wk : 1);
+    }
+  }, [planWeek]);
 
-  useEffect(()=>{if(planWeek===null){const tp=PLAN_RAW.find(p=>p.d===getToday());setPlanWeek(tp?tp.wk:1);}},[planWeek]);
+  const dk = selectedDate;
+  const plan = PLAN_RAW.find(p => p.d === dk);
+  const weekGoal = plan ? WEEK_GOALS[plan.wk] : WEEK_GOALS[1];
+  const entries = data.entries[dk] || [];
+  const water = entries.filter(e => e.type === "water").length;
+  const foods = entries.filter(e => e.type === "food");
+  const tc = data.checks[dk] || {};
+  const tsc = data.snackChips[dk] || {};
+  const tec = data.exerciseChips[dk] || {};
+  const tem = data.exerciseMemo[dk] || "";
+  const tr = data.ratings[dk] || "";
+  const tl = data.lunchActual[dk] || "";
+  const td = data.dinnerActual[dk] || "";
+  const tm = data.memos[dk] || "";
+  const totals = foods.reduce((a,f) => ({cal:a.cal+(f.cal||0),carb:a.carb+(f.carb||0),protein:a.protein+(f.protein||0),fat:a.fat+(f.fat||0)}), {cal:0,carb:0,protein:0,fat:0});
+  const g = data.goals;
+  const dayNum = plan ? daysBetween("2026-04-09", dk) + 1 : null;
 
-  // ── GitHub 연동 ──
-  const [ghToken,setGhToken]=useState(()=>localStorage.getItem("gh-token")||"");
-  const [ghTokenInput,setGhTokenInput]=useState("");
-  const [ghSha,setGhSha]=useState(null);
-  const [ghStatus,setGhStatus]=useState(()=>localStorage.getItem("gh-token")?"ok":"idle");
-  const [ghMsg,setGhMsg]=useState("");
+  const up = (fn) => setData(prev => { const next = fn({...prev}); return next; });
 
-  const ghHeaders=(tok)=>({Authorization:`Bearer ${tok||ghToken}`,Accept:"application/vnd.github+json","Content-Type":"application/json"});
+  const addEntry = useCallback((entry) => {
+    up(d => { d.entries = {...d.entries}; d.entries[dk] = [...(d.entries[dk]||[]), {...entry, id:Date.now(), time:new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"})}]; return d; });
+  }, [dk]);
 
-  const ghSave=async(dataToSave)=>{
-    if(!ghToken){alert("먼저 토큰을 연결하세요 (🎯 목표 탭)");return;}
-    setGhStatus("checking");setGhMsg("저장 중...");
-    try{
-      let sha=ghSha;
-      if(!sha){
-        const check=await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{headers:ghHeaders()});
-        if(check.ok){const d=await check.json();sha=d.sha;setGhSha(d.sha);}
-      }
-      const content=btoa(unescape(encodeURIComponent(JSON.stringify(dataToSave,null,2))));
-      const body={message:`Update diet data - ${new Date().toLocaleString("ko-KR")}`,content};
-      if(sha)body.sha=sha;
-      const r=await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)});
-      if(!r.ok){const e=await r.json();throw new Error(e.message);}
-      const d=await r.json();setGhSha(d.content.sha);
-      setGhStatus("ok");setGhMsg("GitHub 저장 완료 ✓");setTimeout(()=>setGhMsg(""),3000);
-    }catch(e){setGhStatus("error");setGhMsg("저장 실패: "+e.message);}
+  const removeEntry = useCallback((id) => {
+    up(d => { d.entries = {...d.entries}; d.entries[dk] = (d.entries[dk]||[]).filter(e => e.id !== id); return d; });
+  }, [dk]);
+
+  const addWater = () => addEntry({type:"water"});
+  const removeWater = () => { const l = [...entries].reverse().find(e => e.type==="water"); if(l) removeEntry(l.id); };
+
+  const addFood = (food) => {
+    addEntry({type:"food",name:food.name,cal:+food.cal||0,carb:+food.carb||0,protein:+food.protein||0,fat:+food.fat||0});
+    setCustomFood({name:"",cal:"",carb:"",protein:"",fat:""});
+    setSearchTerm("");
   };
 
-  const ghLoad=async()=>{
-    if(!ghToken)return;
-    setGhStatus("checking");setGhMsg("불러오는 중...");
-    try{
-      const r=await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`,{headers:ghHeaders()});
-      if(r.status===404){setGhStatus("ok");setGhMsg("data.json 없음 — 저장하면 새로 생성됩니다");return;}
-      if(!r.ok)throw new Error(r.status);
-      const d=await r.json();setGhSha(d.sha);
-      const parsed=JSON.parse(atob(d.content.replace(/\n/g,"")));
-      setData({...EMPTY_DATA,...parsed,goals:{...EMPTY_DATA.goals,...(parsed.goals||{})}});
-      setGhStatus("ok");setGhMsg("불러오기 완료 ✓");setTimeout(()=>setGhMsg(""),3000);
-    }catch(e){setGhStatus("error");setGhMsg("불러오기 실패: "+e.message);}
-  };
+  const toggleCheck = (k) => up(d => { d.checks={...d.checks}; d.checks[dk]={...(d.checks[dk]||{})}; d.checks[dk][k]=!d.checks[dk][k]; return d; });
+  
+  const toggleSnack = (chip) => up(d => {
+    d.snackChips={...d.snackChips}; const cur={...(d.snackChips[dk]||{})};
+    if(chip==="없음"){ d.snackChips[dk]=cur["없음"]?{}:{"없음":true}; }
+    else { cur["없음"]=false; cur[chip]=!cur[chip]; d.snackChips[dk]=cur; }
+    return d;
+  });
 
-  const ghConnect=async(token)=>{
-    setGhStatus("checking");setGhMsg("연결 확인 중...");
-    try{
-      const r=await fetch(`https://api.github.com/repos/${GITHUB_REPO}`,{headers:ghHeaders(token)});
-      if(r.ok){
-        setGhToken(token);localStorage.setItem("gh-token",token);
-        setGhStatus("ok");setGhMsg("연결됨 ✓ — 이제 불러오기를 눌러보세요");
-      }else{setGhStatus("error");setGhMsg("토큰 오류 — repo 권한 확인 필요");}
-    }catch{setGhStatus("error");setGhMsg("연결 실패");}
-  };
+  const toggleEx = (chip) => up(d => { d.exerciseChips={...d.exerciseChips}; const c={...(d.exerciseChips[dk]||{})}; c[chip]=!c[chip]; d.exerciseChips[dk]=c; return d; });
 
-  const ghDisconnect=()=>{
-    setGhToken("");setGhTokenInput("");setGhSha(null);setGhStatus("idle");setGhMsg("");
-    localStorage.removeItem("gh-token");
-  };
+  const setField = (field, val) => up(d => { d[field]={...d[field]}; d[field][dk]=val; return d; });
+  const setGoal = (k,v) => up(d => { d.goals={...d.goals}; d.goals[k]=+v; return d; });
+  const setInbody = (k,v) => up(d => { d.inbody={...d.inbody}; d.inbody[dk]={...(d.inbody[dk]||{})}; d.inbody[dk][k]=v===""?"":+v; return d; });
 
-  const dk=selectedDate;
-  const plan=PLAN_RAW.find(p=>p.d===dk);
-  const weekGoal=plan?WEEK_GOALS[plan.wk]:WEEK_GOALS[1];
-  const entries=data.entries[dk]||[];
-  const water=entries.filter(e=>e.type==="water").length;
-  const foods=entries.filter(e=>e.type==="food");
-  const tc=data.checks[dk]||{};
-  const tsc=data.snackChips[dk]||{};
-  const tec=data.exerciseChips[dk]||{};
-  const tem=data.exerciseMemo[dk]||"";
-  const tr=data.ratings[dk]||"";
-  const tm=data.memos[dk]||"";
-  const totals=foods.reduce((a,f)=>({cal:a.cal+(f.cal||0),carb:a.carb+(f.carb||0),protein:a.protein+(f.protein||0),fat:a.fat+(f.fat||0)}),{cal:0,carb:0,protein:0,fat:0});
-  const g=data.goals;
-  const dayNum=plan?daysBetween("2026-04-09",dk)+1:null;
+  const weekDates = Array.from({length:7}).map((_,i) => {
+    const d = new Date(dk); d.setDate(d.getDate()-6+i); return d.toISOString().slice(0,10);
+  });
 
-  const up=(fn)=>setData(prev=>{const next=fn({...prev});return next;});
-  const addEntry=useCallback((entry)=>{up(d=>{d.entries={...d.entries};d.entries[dk]=[...(d.entries[dk]||[]),{...entry,id:Date.now(),time:new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"})}];return d;});},[dk]);
-  const removeEntry=useCallback((id)=>{up(d=>{d.entries={...d.entries};d.entries[dk]=(d.entries[dk]||[]).filter(e=>e.id!==id);return d;});},[dk]);
-  const addWater=()=>addEntry({type:"water"});
-  const removeWater=()=>{const l=[...entries].reverse().find(e=>e.type==="water");if(l)removeEntry(l.id);};
-  const addFood=(food)=>{addEntry({type:"food",name:food.name,cal:+food.cal||0,carb:+food.carb||0,protein:+food.protein||0,fat:+food.fat||0});setCustomFood({name:"",cal:"",carb:"",protein:"",fat:""});setSearchTerm("");};
-  const toggleCheck=(k)=>up(d=>{d.checks={...d.checks};d.checks[dk]={...(d.checks[dk]||{})};d.checks[dk][k]=!d.checks[dk][k];return d;});
-  const toggleSnack=(chip)=>up(d=>{d.snackChips={...d.snackChips};const cur={...(d.snackChips[dk]||{})};if(chip==="없음"){d.snackChips[dk]=cur["없음"]?{}:{"없음":true};}else{cur["없음"]=false;cur[chip]=!cur[chip];d.snackChips[dk]=cur;}return d;});
-  const toggleEx=(chip)=>up(d=>{d.exerciseChips={...d.exerciseChips};const c={...(d.exerciseChips[dk]||{})};c[chip]=!c[chip];d.exerciseChips[dk]=c;return d;});
-  const setField=(field,val)=>up(d=>{d[field]={...d[field]};d[field][dk]=val;return d;});
-  const setGoal=(k,v)=>up(d=>{d.goals={...d.goals};d.goals[k]=+v;return d;});
-  const setInbody=(k,v)=>up(d=>{d.inbody={...d.inbody};d.inbody[dk]={...(d.inbody[dk]||{})};d.inbody[dk][k]=v===""?"":+v;return d;});
-
-  const weekDates=Array.from({length:7}).map((_,i)=>{const d=new Date(dk);d.setDate(d.getDate()-6+i);return d.toISOString().slice(0,10);});
-
-  const TABS=[
+  const TABS = [
     {key:"today",label:"오늘",icon:"📊"},{key:"plan",label:"4주 플랜",icon:"📅"},
     {key:"log",label:"식사기록",icon:"🍽️"},{key:"workout",label:"홈트",icon:"🏋️"},
     {key:"body",label:"인바디",icon:"📐"},{key:"stats",label:"통계",icon:"📈"},
     {key:"goals",label:"목표",icon:"🎯"},
   ];
 
-  return(
-    <div style={{minHeight:"100vh",background:"linear-gradient(165deg,#080b14 0%,#0f1628 35%,#111827 60%,#0c1018 100%)",color:"#fff",fontFamily:"'Apple SD Gothic Neo','Noto Sans KR',sans-serif",maxWidth:500,margin:"0 auto",padding:"0 0 90px"}}>
-
+  return (
+    <div style={{minHeight:"100vh",background:"linear-gradient(165deg,#080b14 0%,#0f1628 35%,#111827 60%,#0c1018 100%)",color:"#fff",fontFamily:"'Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif",maxWidth:500,margin:"0 auto",padding:"0 0 90px"}}>
+      
       {/* Header */}
       <div style={{padding:"22px 20px 6px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
         <div>
           <div style={{display:"flex",alignItems:"center",gap:8}}>
             <span style={{fontSize:19,fontWeight:800,letterSpacing:-0.5}}>{"🥗 다이어트 30일"}</span>
-            {plan&&<span style={{padding:"3px 10px",borderRadius:6,fontSize:10,fontWeight:700,background:plan.phase.includes("출장")?"rgba(245,158,11,0.15)":"rgba(99,102,241,0.15)",color:plan.phase.includes("출장")?"#fbbf24":"#a5b4fc"}}>{plan.phase}</span>}
-            {loaded&&<span style={{fontSize:8,color:"rgba(16,185,129,0.5)"}}>{"💾"}</span>}
-            {ghToken&&<span title="GitHub 연결됨" style={{fontSize:11,cursor:"pointer",color:"rgba(99,102,241,0.7)"}} onClick={()=>setTab("goals")}>{"☁"}</span>}
+            {plan && <span style={{padding:"3px 10px",borderRadius:6,fontSize:10,fontWeight:700,background:plan.phase.includes("출장")?"rgba(245,158,11,0.15)":"rgba(99,102,241,0.15)",color:plan.phase.includes("출장")?"#fbbf24":"#a5b4fc"}}>{plan.phase}</span>}
+            {loaded && <span style={{fontSize:8,color:"rgba(16,185,129,0.5)"}}>{"💾"}</span>}
           </div>
           <div style={{fontSize:11,color:"rgba(255,255,255,0.3)",marginTop:3}}>
             {new Date(dk+"T12:00:00").toLocaleDateString("ko-KR",{month:"numeric",day:"numeric",weekday:"short"})}
-            {dayNum&&<span style={{marginLeft:8}}>{"Day "+dayNum}</span>}
+            {dayNum && <span style={{marginLeft:8}}>{"Day "+dayNum}</span>}
           </div>
         </div>
-        <input type="date" value={dk} onChange={e=>setSelectedDate(e.target.value)} style={{...s.inp,padding:"5px 8px",fontSize:11,width:"auto"}}/>
+        <input type="date" value={dk} onChange={e => setSelectedDate(e.target.value)}
+          style={{...s.inp,padding:"5px 8px",fontSize:11,width:"auto"}}/>
       </div>
 
       {/* Tabs */}
       <div style={{display:"flex",gap:4,padding:"8px 20px 12px",overflowX:"auto",scrollbarWidth:"none"}}>
-        {TABS.map(t=>(
-          <button key={t.key} onClick={()=>setTab(t.key)} style={{
+        {TABS.map(t => (
+          <button key={t.key} onClick={() => setTab(t.key)} style={{
             ...s.btn,padding:"7px 11px",fontSize:11,whiteSpace:"nowrap",
             background:tab===t.key?"rgba(99,102,241,0.2)":"rgba(255,255,255,0.035)",
             color:tab===t.key?"#a5b4fc":"rgba(255,255,255,0.38)",
@@ -373,8 +364,8 @@ function DietTracker(){
 
       <div style={{padding:"0 20px"}}>
 
-        {/* TODAY */}
-        {tab==="today"&&(
+        {/* ═══ TODAY ═══ */}
+        {tab === "today" && (
           <div>
             <div style={{...s.card,display:"flex",alignItems:"center",gap:18}}>
               <Ring value={Math.round(totals.cal)} max={weekGoal?.calories||g.calories} color="#818cf8">
@@ -395,25 +386,27 @@ function DietTracker(){
               </div>
             </div>
 
+            {/* InBody */}
             <div style={{...s.card,background:"rgba(16,185,129,0.04)",borderColor:"rgba(16,185,129,0.1)"}}>
               <div style={s.label}>{"📐 인바디 / 체중"}</div>
               <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:6}}>
-                {[["weight","체중"],["fatPct","체지방%"],["muscle","골격근"],["bmi","BMI"],["fatKg","지방량"]].map(([k,l])=>(
+                {[["weight","체중"],["fatPct","체지방%"],["muscle","골격근"],["bmi","BMI"],["fatKg","지방량"]].map(([k,l]) => (
                   <div key={k}>
                     <div style={s.sub}>{l}</div>
                     <input type="number" step="0.01" placeholder="-" value={(data.inbody[dk]||{})[k]??""}
-                      onChange={e=>setInbody(k,e.target.value)}
+                      onChange={e => setInbody(k,e.target.value)}
                       style={{...s.inp,width:"100%",fontSize:14,fontWeight:700,padding:"5px 6px",color:"#10b981"}}/>
                   </div>
                 ))}
               </div>
             </div>
 
+            {/* Water */}
             <div style={s.card}>
               <div style={s.label}>{"💧 수분"}</div>
               <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
-                {Array.from({length:g.water}).map((_,i)=>(
-                  <div key={i} onClick={()=>i<water?removeWater():addWater()}
+                {Array.from({length:g.water}).map((_,i) => (
+                  <div key={i} onClick={() => i < water ? removeWater() : addWater()}
                     style={{width:26,height:34,borderRadius:6,cursor:"pointer",transition:"all 0.2s",
                       border:i<water?"2px solid #60a5fa":"2px dashed rgba(255,255,255,0.12)",
                       background:i<water?"linear-gradient(180deg,#60a5fa,#3b82f6)":"transparent",
@@ -425,20 +418,22 @@ function DietTracker(){
               </div>
             </div>
 
+            {/* Checklist */}
             <div style={s.card}>
               <div style={s.label}>{"✅ 체크리스트"}</div>
               <div style={{display:"flex",flexDirection:"column",gap:5}}>
-                {CHECKS_LIST.map(({label,key})=>(
-                  <CheckItem key={key} label={label} checked={!!tc[key]} onChange={()=>toggleCheck(key)}/>
+                {CHECKS_LIST.map(({label,key}) => (
+                  <CheckItem key={key} label={label} checked={!!tc[key]} onChange={() => toggleCheck(key)}/>
                 ))}
               </div>
             </div>
 
+            {/* Rating */}
             <div style={s.card}>
               <div style={s.label}>{"⭐ 오늘 평가"}</div>
               <div style={{display:"flex",gap:8}}>
-                {[{k:"good",l:"잘했다!",c:"#10b981",bg:"rgba(16,185,129,0.12)"},{k:"ok",l:"보통",c:"#f59e0b",bg:"rgba(245,158,11,0.12)"},{k:"bad",l:"아쉬움",c:"#ef4444",bg:"rgba(239,68,68,0.12)"}].map(r=>(
-                  <button key={r.k} onClick={()=>setField("ratings",data.ratings[dk]===r.k?"":r.k)} style={{
+                {[{k:"good",l:"잘했다!",c:"#10b981",bg:"rgba(16,185,129,0.12)"},{k:"ok",l:"보통",c:"#f59e0b",bg:"rgba(245,158,11,0.12)"},{k:"bad",l:"아쉬움",c:"#ef4444",bg:"rgba(239,68,68,0.12)"}].map(r => (
+                  <button key={r.k} onClick={() => setField("ratings",data.ratings[dk]===r.k?"":r.k)} style={{
                     ...s.btn,padding:"8px 18px",fontSize:12,
                     background:tr===r.k?r.bg:"rgba(255,255,255,0.035)",
                     color:tr===r.k?r.c:"rgba(255,255,255,0.4)",
@@ -448,20 +443,21 @@ function DietTracker(){
               </div>
             </div>
 
+            {/* Memo */}
             <div style={s.card}>
               <div style={s.label}>{"📝 메모"}</div>
-              <textarea value={tm} onChange={e=>setField("memos",e.target.value)} placeholder="오늘 한마디..."
+              <textarea value={tm} onChange={e => setField("memos",e.target.value)} placeholder="오늘 한마디..."
                 style={{...s.inp,width:"100%",minHeight:55,resize:"vertical",lineHeight:1.5}}/>
             </div>
           </div>
         )}
 
-        {/* PLAN */}
-        {tab==="plan"&&(
+        {/* ═══ PLAN ═══ */}
+        {tab === "plan" && (
           <div>
             <div style={{display:"flex",gap:5,marginBottom:12}}>
-              {[{w:1,l:"1주 적응"},{w:2,l:"2주 감량"},{w:0,l:"출장✈️"},{w:3,l:"3주 복귀"},{w:4,l:"4주 마무리"}].map(({w,l})=>(
-                <button key={w} onClick={()=>setPlanWeek(w)} style={{
+              {[{w:1,l:"1주 적응"},{w:2,l:"2주 감량"},{w:0,l:"출장✈️"},{w:3,l:"3주 복귀"},{w:4,l:"4주 마무리"}].map(({w,l}) => (
+                <button key={w} onClick={() => setPlanWeek(w)} style={{
                   ...s.btn,padding:"7px 10px",fontSize:10,flex:1,
                   background:planWeek===w?"rgba(99,102,241,0.2)":"rgba(255,255,255,0.035)",
                   color:planWeek===w?"#a5b4fc":"rgba(255,255,255,0.38)",
@@ -469,22 +465,29 @@ function DietTracker(){
                 }}>{l}</button>
               ))}
             </div>
-            {WEEK_GOALS[planWeek]&&(()=>{
-              const wg=WEEK_GOALS[planWeek];const ph=PLAN_RAW.find(p=>p.wk===planWeek);
-              return(
+
+            {WEEK_GOALS[planWeek] && (() => {
+              const wg = WEEK_GOALS[planWeek];
+              const ph = PLAN_RAW.find(p => p.wk === planWeek);
+              return (
                 <div style={{...s.card,background:"rgba(99,102,241,0.05)",borderColor:"rgba(99,102,241,0.12)"}}>
                   <div style={{fontSize:12,fontWeight:700,color:"#a5b4fc",marginBottom:4}}>{ph?.phase}</div>
                   <div style={{fontSize:11,color:"rgba(255,255,255,0.45)"}}>{wg.tip}</div>
-                  <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",marginTop:3}}>{"목표: "+wg.calories+"kcal · 탄"+wg.carb+" 단"+wg.protein+" 지"+wg.fat+"g"}</div>
+                  <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",marginTop:3}}>
+                    {"목표: "+wg.calories+"kcal · 탄"+wg.carb+" 단"+wg.protein+" 지"+wg.fat+"g"}
+                  </div>
                 </div>
               );
             })()}
-            {PLAN_RAW.filter(p=>p.wk===planWeek).map(p=>{
-              const dn2=daysBetween("2026-04-09",p.d)+1;
-              const dc=(data.entries[p.d]||[]).filter(e=>e.type==="food").reduce((acc,f)=>acc+(f.cal||0),0);
-              const rating=data.ratings[p.d];const isT=p.d===getToday();const wg2=WEEK_GOALS[p.wk]||{};
-              return(
-                <div key={p.d} onClick={()=>{setSelectedDate(p.d);setTab("today");}} style={{
+
+            {PLAN_RAW.filter(p => p.wk === planWeek).map(p => {
+              const dn2 = daysBetween("2026-04-09",p.d)+1;
+              const dc = (data.entries[p.d]||[]).filter(e => e.type==="food").reduce((acc,f) => acc+(f.cal||0),0);
+              const rating = data.ratings[p.d];
+              const isT = p.d === getToday();
+              const wg2 = WEEK_GOALS[p.wk] || {};
+              return (
+                <div key={p.d} onClick={() => {setSelectedDate(p.d);setTab("today");}} style={{
                   ...s.card,cursor:"pointer",padding:"12px 14px",
                   background:isT?"rgba(99,102,241,0.08)":p.phase.includes("출장")?"rgba(245,158,11,0.04)":undefined,
                   borderColor:isT?"rgba(99,102,241,0.25)":undefined,
@@ -496,18 +499,21 @@ function DietTracker(){
                         <span style={{fontWeight:400,color:"rgba(255,255,255,0.3)",marginLeft:5,fontSize:10}}>
                           {new Date(p.d+"T12:00:00").toLocaleDateString("ko-KR",{month:"numeric",day:"numeric",weekday:"short"})}
                         </span>
-                        {isT&&<span style={{fontSize:9,color:"#818cf8",marginLeft:4}}>{"← today"}</span>}
+                        {isT && <span style={{fontSize:9,color:"#818cf8",marginLeft:4}}>{"← today"}</span>}
                       </div>
                       <div style={{fontSize:10,color:"rgba(255,255,255,0.4)",marginBottom:2}}>{"🍚 "+p.lunch.split("\n")[0]}</div>
                       <div style={{fontSize:10,color:"rgba(255,255,255,0.4)",marginBottom:2}}>{"🌙 "+p.dinner.split("\n")[0]}</div>
                       <div style={{display:"flex",flexWrap:"wrap",gap:3,marginTop:3}}>
-                        {p.exercise.map((e,i)=>{const isV=/^[1-5]\./.test(e);const wo=isV?WORKOUTS[e.charAt(0)]:null;
-                          return<span key={i} style={{fontSize:9,padding:"2px 7px",borderRadius:5,background:wo?wo.color+"12":"rgba(255,255,255,0.04)",color:wo?wo.color:"rgba(255,255,255,0.35)"}}>{e}</span>;})}
+                        {p.exercise.map((e,i) => {
+                          const isV = /^[1-5]\./.test(e);
+                          const wo = isV ? WORKOUTS[e.charAt(0)] : null;
+                          return <span key={i} style={{fontSize:9,padding:"2px 7px",borderRadius:5,background:wo?wo.color+"12":"rgba(255,255,255,0.04)",color:wo?wo.color:"rgba(255,255,255,0.35)"}}>{e}</span>;
+                        })}
                       </div>
                     </div>
                     <div style={{textAlign:"right",flexShrink:0,marginLeft:8}}>
-                      {rating&&<span style={{fontSize:14}}>{rating==="good"?"😊":rating==="ok"?"😐":"😔"}</span>}
-                      {dc>0&&<div style={{fontSize:11,fontWeight:700,color:dc>wg2.calories?"#ff6b6b":"#10b981"}}>{dc}kcal</div>}
+                      {rating && <span style={{fontSize:14}}>{rating==="good"?"😊":rating==="ok"?"😐":"😔"}</span>}
+                      {dc > 0 && <div style={{fontSize:11,fontWeight:700,color:dc>wg2.calories?"#ff6b6b":"#10b981"}}>{dc}kcal</div>}
                     </div>
                   </div>
                 </div>
@@ -516,43 +522,50 @@ function DietTracker(){
           </div>
         )}
 
-        {/* LOG */}
-        {tab==="log"&&(
+        {/* ═══ LOG ═══ */}
+        {tab === "log" && (
           <div>
             <TodayRec plan={plan} type="meal"/>
+
             <div style={s.card}>
               <div style={s.label}>{"⚡ 칼로리 기록"}</div>
-              <input placeholder="음식 / 간식 검색..." value={searchTerm} onChange={e=>setSearchTerm(e.target.value)} style={{...s.inp,width:"100%",marginBottom:8}}/>
+              <input placeholder="음식 / 간식 검색..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
+                style={{...s.inp,width:"100%",marginBottom:8}}/>
               <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
-                {FOOD_PRESETS.filter(f=>f.name.includes(searchTerm)).map((f,i)=>(
-                  <button key={i} onClick={()=>addFood(f)} style={{...s.btn,padding:"6px 11px",fontSize:11,background:"rgba(99,102,241,0.08)",color:"#a5b4fc",border:"1px solid rgba(99,102,241,0.15)"}}>{f.name} <span style={{opacity:0.4}}>{f.cal}</span></button>
+                {FOOD_PRESETS.filter(f => f.name.includes(searchTerm)).map((f,i) => (
+                  <button key={i} onClick={() => addFood(f)} style={{
+                    ...s.btn,padding:"6px 11px",fontSize:11,background:"rgba(99,102,241,0.08)",color:"#a5b4fc",border:"1px solid rgba(99,102,241,0.15)",
+                  }}>{f.name} <span style={{opacity:0.4}}>{f.cal}</span></button>
                 ))}
               </div>
             </div>
+
             <div style={s.card}>
               <div style={s.label}>{"✏️ 직접 입력"}</div>
-              <input placeholder="음식 이름" value={customFood.name} onChange={e=>setCustomFood(p=>({...p,name:e.target.value}))} style={{...s.inp,width:"100%",marginBottom:6}}/>
+              <input placeholder="음식 이름" value={customFood.name} onChange={e => setCustomFood(p => ({...p,name:e.target.value}))} style={{...s.inp,width:"100%",marginBottom:6}}/>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:6}}>
-                {[["cal","칼로리(kcal)"],["carb","탄수화물(g)"],["protein","단백질(g)"],["fat","지방(g)"]].map(([k,l])=>(
-                  <input key={k} type="number" placeholder={l} value={customFood[k]} onChange={e=>setCustomFood(p=>({...p,[k]:e.target.value}))} style={{...s.inp,fontSize:12}}/>
+                {[["cal","칼로리(kcal)"],["carb","탄수화물(g)"],["protein","단백질(g)"],["fat","지방(g)"]].map(([k,l]) => (
+                  <input key={k} type="number" placeholder={l} value={customFood[k]}
+                    onChange={e => setCustomFood(p => ({...p,[k]:e.target.value}))} style={{...s.inp,fontSize:12}}/>
                 ))}
               </div>
-              <button onClick={()=>customFood.name&&customFood.cal&&addFood(customFood)} style={{
+              <button onClick={() => customFood.name && customFood.cal && addFood(customFood)} style={{
                 ...s.btn,width:"100%",padding:"10px",fontSize:12,
                 background:customFood.name&&customFood.cal?"linear-gradient(135deg,#6366f1,#4f46e5)":"rgba(255,255,255,0.05)",
                 color:customFood.name&&customFood.cal?"#fff":"rgba(255,255,255,0.2)",
               }}>+ 기록하기</button>
             </div>
-            {foods.length>0&&(
+
+            {foods.length > 0 && (
               <div style={s.card}>
                 <div style={s.label}>{"📋 기록된 식사"}</div>
-                {foods.map(f=>(
+                {foods.map(f => (
                   <div key={f.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:"1px solid rgba(255,255,255,0.04)"}}>
                     <div>
                       <div style={{fontSize:12,fontWeight:600}}>{f.name}</div>
                       <div style={{fontSize:10,color:"rgba(255,255,255,0.3)"}}>{f.time+" · "+f.cal+"kcal · 탄"+f.carb+" 단"+f.protein+" 지"+f.fat}</div>
                     </div>
-                    <button onClick={()=>removeEntry(f.id)} style={{...s.btn,background:"rgba(255,60,60,0.1)",color:"#ff6b6b",padding:"3px 8px",fontSize:10}}>✕</button>
+                    <button onClick={() => removeEntry(f.id)} style={{...s.btn,background:"rgba(255,60,60,0.1)",color:"#ff6b6b",padding:"3px 8px",fontSize:10}}>✕</button>
                   </div>
                 ))}
               </div>
@@ -560,25 +573,31 @@ function DietTracker(){
           </div>
         )}
 
-        {/* WORKOUT */}
-        {tab==="workout"&&(
+        {/* ═══ WORKOUT ═══ */}
+        {tab === "workout" && (
           <div>
             <TodayRec plan={plan} type="exercise"/>
+
             <div style={s.card}>
               <div style={s.label}>{"✅ 오늘 한 운동"}</div>
               <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:10}}>
-                {EXERCISE_CHIPS.map(ch=>(
-                  <Chip key={ch} label={ch} active={!!tec[ch]} onClick={()=>toggleEx(ch)} ac="rgba(99,102,241,0.12)" ab="rgba(99,102,241,0.25)" at="#a5b4fc"/>
+                {EXERCISE_CHIPS.map(ch => (
+                  <Chip key={ch} label={ch} active={!!tec[ch]} onClick={() => toggleEx(ch)}
+                    ac="rgba(99,102,241,0.12)" ab="rgba(99,102,241,0.25)" at="#a5b4fc"/>
                 ))}
               </div>
               <div style={s.sub}>추가 운동 기록</div>
-              <input placeholder="추가로 한 운동이 있다면..." value={tem} onChange={e=>setField("exerciseMemo",e.target.value)} style={{...s.inp,width:"100%",fontSize:12}}/>
+              <input placeholder="추가로 한 운동이 있다면..." value={tem}
+                onChange={e => setField("exerciseMemo",e.target.value)}
+                style={{...s.inp,width:"100%",fontSize:12}}/>
             </div>
+
             <div style={{...s.card,background:"rgba(99,102,241,0.04)",borderColor:"rgba(99,102,241,0.1)",padding:"12px 16px"}}>
               <div style={{fontSize:12,fontWeight:700,color:"#a5b4fc",marginBottom:2}}>{"🎬 홈트 영상"}</div>
               <div style={{fontSize:10,color:"rgba(255,255,255,0.3)"}}>{"터치 → 유튜브"}</div>
             </div>
-            {Object.entries(WORKOUTS).map(([key,wo])=>(
+
+            {Object.entries(WORKOUTS).map(([key,wo]) => (
               <a key={key} href={wo.yt} target="_blank" rel="noopener noreferrer" style={{textDecoration:"none",color:"inherit"}}>
                 <div style={{...s.card,cursor:"pointer",display:"flex",alignItems:"center",gap:12,background:wo.color+"06",borderColor:wo.color+"18"}}>
                   <div style={{width:44,height:44,borderRadius:12,display:"flex",alignItems:"center",justifyContent:"center",background:wo.color+"15",fontSize:22,flexShrink:0}}>{wo.emoji}</div>
@@ -590,56 +609,73 @@ function DietTracker(){
           </div>
         )}
 
-        {/* BODY */}
-        {tab==="body"&&(
+        {/* ═══ BODY ═══ */}
+        {tab === "body" && (
           <div>
             <div style={s.card}>
               <div style={{fontSize:13,fontWeight:700,marginBottom:10,color:"rgba(255,255,255,0.65)"}}>{"📐 인바디 기록"}</div>
-              <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",marginBottom:10}}>{new Date(dk+"T12:00:00").toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric"})}</div>
+              <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",marginBottom:10}}>
+                {new Date(dk+"T12:00:00").toLocaleDateString("ko-KR",{year:"numeric",month:"long",day:"numeric"})}
+              </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
-                {[["weight","체중(kg)"],["fatPct","체지방(%)"],["muscle","골격근(kg)"],["bmi","BMI"],["fatKg","체지방량(kg)"],["bmr","기초대사량(kcal)"]].map(([k,l])=>(
+                {[["weight","체중(kg)"],["fatPct","체지방(%)"],["muscle","골격근(kg)"],["bmi","BMI"],["fatKg","체지방량(kg)"],["bmr","기초대사량(kcal)"]].map(([k,l]) => (
                   <div key={k} style={{background:"rgba(255,255,255,0.025)",borderRadius:8,padding:"8px 10px"}}>
                     <div style={{fontSize:9,color:"rgba(255,255,255,0.4)",marginBottom:3}}>{l}</div>
                     <input type="number" step="0.01" placeholder="-" value={(data.inbody[dk]||{})[k]??""}
-                      onChange={e=>setInbody(k,e.target.value)}
+                      onChange={e => setInbody(k,e.target.value)}
                       style={{...s.inp,width:"100%",fontSize:14,fontWeight:700,padding:"5px 6px",color:"#10b981"}}/>
                   </div>
                 ))}
               </div>
             </div>
+
             <div style={s.card}>
               <div style={s.label}>{"⚖️ 체중 추이 (7일)"}</div>
               <div style={{display:"flex",gap:4,alignItems:"flex-end",height:90,paddingBottom:18}}>
-                {weekDates.map(d=>{
-                  const w=(data.inbody[d]||{}).weight;
-                  const allW=weekDates.map(dd=>(data.inbody[dd]||{}).weight).filter(Boolean);
-                  const minW=allW.length?Math.min(...allW)-1:50;const maxW=allW.length?Math.max(...allW)+1:80;
-                  const range=maxW-minW||1;
-                  const dl=new Date(d+"T12:00:00").toLocaleDateString("ko-KR",{weekday:"narrow"});
-                  if(!w)return(<div key={d} style={{flex:1,textAlign:"center"}}><div style={{height:3,borderRadius:2,background:"rgba(255,255,255,0.04)",marginBottom:3}}/><div style={{fontSize:8,color:"rgba(255,255,255,0.2)"}}>{dl}</div></div>);
-                  const h=Math.max(6,((w-minW)/range)*65);
-                  return(<div key={d} style={{flex:1,textAlign:"center"}}><div style={{fontSize:8,color:"rgba(255,255,255,0.4)",marginBottom:2}}>{w}</div><div style={{height:h,borderRadius:4,marginBottom:3,background:"linear-gradient(180deg,#10b981,#059669)"}}/><div style={{fontSize:8,color:d===getToday()?"#10b981":"rgba(255,255,255,0.2)"}}>{dl}</div></div>);
+                {weekDates.map(d => {
+                  const w = (data.inbody[d]||{}).weight;
+                  const allW = weekDates.map(dd => (data.inbody[dd]||{}).weight).filter(Boolean);
+                  const minW = allW.length ? Math.min(...allW)-1 : 50;
+                  const maxW = allW.length ? Math.max(...allW)+1 : 80;
+                  const range = maxW-minW || 1;
+                  const dl = new Date(d+"T12:00:00").toLocaleDateString("ko-KR",{weekday:"narrow"});
+                  if (!w) return (
+                    <div key={d} style={{flex:1,textAlign:"center"}}>
+                      <div style={{height:3,borderRadius:2,background:"rgba(255,255,255,0.04)",marginBottom:3}}/>
+                      <div style={{fontSize:8,color:"rgba(255,255,255,0.2)"}}>{dl}</div>
+                    </div>
+                  );
+                  const h = Math.max(6,((w-minW)/range)*65);
+                  return (
+                    <div key={d} style={{flex:1,textAlign:"center"}}>
+                      <div style={{fontSize:8,color:"rgba(255,255,255,0.4)",marginBottom:2}}>{w}</div>
+                      <div style={{height:h,borderRadius:4,marginBottom:3,background:"linear-gradient(180deg,#10b981,#059669)"}}/>
+                      <div style={{fontSize:8,color:d===getToday()?"#10b981":"rgba(255,255,255,0.2)"}}>{dl}</div>
+                    </div>
+                  );
                 })}
               </div>
             </div>
           </div>
         )}
 
-        {/* STATS */}
-        {tab==="stats"&&(
+        {/* ═══ STATS ═══ */}
+        {tab === "stats" && (
           <div>
             <div style={s.card}>
               <div style={s.label}>{"📊 주간 칼로리"}</div>
               <div style={{display:"flex",alignItems:"flex-end",gap:5,height:120,paddingBottom:20,position:"relative"}}>
                 <div style={{position:"absolute",left:0,right:0,bottom:20+(1/1.5)*100,borderTop:"1px dashed rgba(99,102,241,0.2)"}}/>
-                {weekDates.map(d=>{
-                  const dc=(data.entries[d]||[]).filter(e=>e.type==="food").reduce((acc,f)=>acc+(f.cal||0),0);
-                  const dp=PLAN_RAW.find(p=>p.d===d);const target=(dp?WEEK_GOALS[dp.wk]:null)?.calories||g.calories;
-                  const maxH=target*1.5;const h=Math.max(3,(dc/maxH)*100);
-                  const isT=d===getToday(),isSel=d===dk;
-                  const dl=new Date(d+"T12:00:00").toLocaleDateString("ko-KR",{weekday:"narrow"});
-                  return(
-                    <div key={d} style={{flex:1,textAlign:"center",cursor:"pointer"}} onClick={()=>setSelectedDate(d)}>
+                {weekDates.map(d => {
+                  const dc = (data.entries[d]||[]).filter(e => e.type==="food").reduce((acc,f) => acc+(f.cal||0),0);
+                  const dp = PLAN_RAW.find(p => p.d===d);
+                  const target = (dp ? WEEK_GOALS[dp.wk] : null)?.calories || g.calories;
+                  const maxH = target*1.5;
+                  const h = Math.max(3,(dc/maxH)*100);
+                  const isT = d===getToday(), isSel = d===dk;
+                  const dl = new Date(d+"T12:00:00").toLocaleDateString("ko-KR",{weekday:"narrow"});
+                  return (
+                    <div key={d} style={{flex:1,textAlign:"center",cursor:"pointer"}} onClick={() => setSelectedDate(d)}>
                       <div style={{height:h,borderRadius:4,marginBottom:3,
                         background:dc>target?"linear-gradient(180deg,#ff6b6b,#dc2626)":isSel?"linear-gradient(180deg,#818cf8,#6366f1)":"linear-gradient(180deg,rgba(99,102,241,0.3),rgba(99,102,241,0.12))",
                         transition:"height 0.4s",border:isSel?"1px solid rgba(129,140,248,0.35)":"none"}}/>
@@ -650,25 +686,34 @@ function DietTracker(){
                 })}
               </div>
             </div>
+
             <div style={s.card}>
               <div style={s.label}>{"🗓 30일 달성"}</div>
               <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:4}}>
-                {PLAN_RAW.map(p=>{
-                  const dc=(data.entries[p.d]||[]).filter(e=>e.type==="food").reduce((acc,f)=>acc+(f.cal||0),0);
-                  const target=(WEEK_GOALS[p.wk]||{}).calories||g.calories;
-                  const ckCount=Object.values(data.checks[p.d]||{}).filter(Boolean).length;
-                  const exCount=Object.values(data.exerciseChips[p.d]||{}).filter(Boolean).length;
-                  const isT=p.d===getToday();const dn2=daysBetween("2026-04-09",p.d)+1;
-                  let score=0;if(dc>0&&dc<=target)score++;if(ckCount>=4)score++;if(exCount>=1)score++;
-                  const hasAny=dc>0||ckCount>0||exCount>0;
-                  const emoji=score===3?"🔥":score===2?"👍":score===1?"😐":"";
-                  const bg=score===3?"rgba(16,185,129,0.25)":score===2?"rgba(245,158,11,0.18)":score===1?"rgba(251,146,60,0.15)":hasAny?"rgba(99,102,241,0.1)":"rgba(255,255,255,0.025)";
-                  const borderC=isT?"2px solid #818cf8":p.phase.includes("출장")?"1px solid rgba(245,158,11,0.25)":"1px solid rgba(255,255,255,0.035)";
-                  const isFuture=p.d>getToday();
-                  return(
-                    <div key={p.d} onClick={()=>{setSelectedDate(p.d);setTab("today");}}
-                      style={{aspectRatio:"1",borderRadius:8,cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",background:bg,border:borderC}}>
-                      {emoji?<div style={{fontSize:16,lineHeight:1}}>{emoji}</div>:<div style={{fontSize:isFuture?10:8,color:"rgba(255,255,255,0.22)"}}>{dn2}</div>}
+                {PLAN_RAW.map(p => {
+                  const dc = (data.entries[p.d]||[]).filter(e => e.type==="food").reduce((acc,f) => acc+(f.cal||0),0);
+                  const target = (WEEK_GOALS[p.wk]||{}).calories || g.calories;
+                  const ckCount = Object.values(data.checks[p.d]||{}).filter(Boolean).length;
+                  const exCount = Object.values(data.exerciseChips[p.d]||{}).filter(Boolean).length;
+                  const isT = p.d===getToday();
+                  const dn2 = daysBetween("2026-04-09",p.d)+1;
+                  let score = 0;
+                  if (dc > 0 && dc <= target) score++;
+                  if (ckCount >= 4) score++;
+                  if (exCount >= 1) score++;
+                  const hasAny = dc > 0 || ckCount > 0 || exCount > 0;
+                  const emoji = score===3?"🔥":score===2?"👍":score===1?"😐":"";
+                  const bg = score===3?"rgba(16,185,129,0.25)":score===2?"rgba(245,158,11,0.18)":score===1?"rgba(251,146,60,0.15)":hasAny?"rgba(99,102,241,0.1)":"rgba(255,255,255,0.025)";
+                  const borderC = isT?"2px solid #818cf8":p.phase.includes("출장")?"1px solid rgba(245,158,11,0.25)":"1px solid rgba(255,255,255,0.035)";
+                  const isFuture = p.d > getToday();
+                  return (
+                    <div key={p.d} onClick={() => {setSelectedDate(p.d);setTab("today");}}
+                      style={{aspectRatio:"1",borderRadius:8,cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",
+                        background:bg,border:borderC}}>
+                      {emoji
+                        ? <div style={{fontSize:16,lineHeight:1}}>{emoji}</div>
+                        : <div style={{fontSize:isFuture?10:8,color:"rgba(255,255,255,0.22)"}}>{dn2}</div>
+                      }
                     </div>
                   );
                 })}
@@ -680,71 +725,25 @@ function DietTracker(){
           </div>
         )}
 
-        {/* GOALS */}
-        {tab==="goals"&&(
+        {/* ═══ GOALS ═══ */}
+        {tab === "goals" && (
           <div>
-            {/* GitHub 동기화 카드 */}
-            <div style={{...s.card,background:"rgba(20,24,40,0.8)",borderColor:"rgba(99,102,241,0.2)"}}>
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
-                <span style={{fontSize:13,fontWeight:700,color:"#a5b4fc"}}>{"☁ GitHub 동기화"}</span>
-                {ghStatus==="ok"&&ghToken&&<span style={{fontSize:9,padding:"2px 8px",borderRadius:4,background:"rgba(16,185,129,0.12)",color:"#6ee7b7",border:"1px solid rgba(16,185,129,0.2)"}}>연결됨 ✓</span>}
-                {ghStatus==="error"&&<span style={{fontSize:9,padding:"2px 8px",borderRadius:4,background:"rgba(239,68,68,0.12)",color:"#fca5a5",border:"1px solid rgba(239,68,68,0.2)"}}>오류</span>}
-                {ghStatus==="checking"&&<span style={{fontSize:9,padding:"2px 8px",borderRadius:4,background:"rgba(245,158,11,0.12)",color:"#fbbf24",border:"1px solid rgba(245,158,11,0.2)"}}>확인 중...</span>}
-              </div>
-              <div style={{fontSize:9,color:"rgba(255,255,255,0.2)",marginBottom:12,fontFamily:"monospace"}}>
-                {GITHUB_REPO} / {GITHUB_FILE}
-              </div>
-              {!ghToken?(
-                <div>
-                  <div style={{fontSize:11,color:"rgba(255,255,255,0.35)",marginBottom:8}}>Personal Access Token (repo 권한 필요)</div>
-                  <div style={{display:"flex",gap:8}}>
-                    <input type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" value={ghTokenInput}
-                      onChange={e=>setGhTokenInput(e.target.value)}
-                      onKeyDown={e=>e.key==="Enter"&&ghTokenInput&&ghConnect(ghTokenInput)}
-                      style={{...s.inp,flex:1,fontSize:12}}/>
-                    <button onClick={()=>ghTokenInput&&ghConnect(ghTokenInput)}
-                      style={{...s.btn,padding:"9px 16px",fontSize:12,background:"rgba(99,102,241,0.15)",color:"#a5b4fc",border:"1px solid rgba(99,102,241,0.25)"}}>
-                      연결
-                    </button>
-                  </div>
-                  {ghMsg&&<div style={{fontSize:11,marginTop:8,color:ghStatus==="error"?"#fca5a5":"#6ee7b7"}}>{ghMsg}</div>}
-                  <div style={{fontSize:10,color:"rgba(255,255,255,0.2)",marginTop:8}}>토큰은 브라우저에 저장됩니다 (로컬스토리지)</div>
-                </div>
-              ):(
-                <div>
-                  <div style={{display:"flex",gap:8,marginBottom:8}}>
-                    <button onClick={ghLoad} disabled={ghStatus==="checking"}
-                      style={{...s.btn,flex:1,padding:"10px",fontSize:12,background:"rgba(96,165,250,0.1)",color:"#93c5fd",border:"1px solid rgba(96,165,250,0.2)",opacity:ghStatus==="checking"?0.5:1}}>
-                      ☁ 불러오기
-                    </button>
-                    <button onClick={()=>ghSave(data)} disabled={ghStatus==="checking"}
-                      style={{...s.btn,flex:1,padding:"10px",fontSize:12,background:"rgba(99,102,241,0.15)",color:"#a5b4fc",border:"1px solid rgba(99,102,241,0.25)"}}>
-                      💾 저장
-                    </button>
-                    <button onClick={ghDisconnect}
-                      style={{...s.btn,padding:"10px 13px",fontSize:11,background:"rgba(239,68,68,0.08)",color:"#fca5a5",border:"1px solid rgba(239,68,68,0.15)"}}>
-                      해제
-                    </button>
-                  </div>
-                  {ghMsg&&<div style={{fontSize:11,color:ghStatus==="error"?"#fca5a5":"#6ee7b7",padding:"7px 10px",borderRadius:8,background:ghStatus==="error"?"rgba(239,68,68,0.07)":"rgba(16,185,129,0.07)"}}>{ghMsg}</div>}
-                </div>
-              )}
-            </div>
-
             <div style={{...s.card,background:"rgba(99,102,241,0.05)",borderColor:"rgba(99,102,241,0.12)"}}>
               <div style={{fontSize:12,fontWeight:700,color:"#a5b4fc",marginBottom:8}}>{"📋 주차별 추천 목표"}</div>
+              <div style={{fontSize:10,color:"rgba(255,255,255,0.35)",marginBottom:10}}>{"인바디 기준: 56.7kg · 체지방 31.9% · 골격근 20.86kg · BMI 22.4"}</div>
               <div style={{display:"flex",flexDirection:"column",gap:6}}>
-                {[{w:1,l:"1주 적응기"},{w:2,l:"2주 본격감량"},{w:0,l:"출장 유지기"},{w:3,l:"3주 복귀+재가속"},{w:4,l:"4주 마무리"}].map(({w,l})=>{
-                  const wg=WEEK_GOALS[w];const isCur=plan&&plan.wk===w;
-                  return(
-                    <div key={w} onClick={()=>{setGoal("calories",wg.calories);setGoal("carb",wg.carb);setGoal("protein",wg.protein);setGoal("fat",wg.fat);}}
+                {[{w:1,l:"1주 적응기"},{w:2,l:"2주 본격감량"},{w:0,l:"출장 유지기"},{w:3,l:"3주 복귀+재가속"},{w:4,l:"4주 마무리"}].map(({w,l}) => {
+                  const wg = WEEK_GOALS[w];
+                  const isCur = plan && plan.wk === w;
+                  return (
+                    <div key={w} onClick={() => {setGoal("calories",wg.calories);setGoal("carb",wg.carb);setGoal("protein",wg.protein);setGoal("fat",wg.fat);}}
                       style={{padding:"10px 14px",borderRadius:10,cursor:"pointer",
                         background:isCur?"rgba(99,102,241,0.12)":"rgba(255,255,255,0.025)",
                         border:isCur?"1px solid rgba(99,102,241,0.25)":"1px solid rgba(255,255,255,0.05)",transition:"all 0.2s"}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                         <div>
                           <div style={{fontSize:12,fontWeight:700,color:isCur?"#a5b4fc":"rgba(255,255,255,0.6)"}}>
-                            {l}{isCur&&<span style={{fontSize:9,color:"#818cf8",marginLeft:4}}>{"← 이번 주"}</span>}
+                            {l}{isCur && <span style={{fontSize:9,color:"#818cf8",marginLeft:4}}>{"← 이번 주"}</span>}
                           </div>
                           <div style={{fontSize:10,color:"rgba(255,255,255,0.35)",marginTop:2}}>{wg.tip}</div>
                         </div>
@@ -765,12 +764,14 @@ function DietTracker(){
 
             <div style={s.card}>
               <div style={{fontSize:12,fontWeight:700,marginBottom:12,color:"rgba(255,255,255,0.6)"}}>{"🎯 직접 조절"}</div>
-              {[["calories","칼로리","kcal",1000,3000,50],["carb","탄수화물","g",50,400,10],["protein","단백질","g",30,250,5],["fat","지방","g",20,150,5],["water","수분(잔)","잔",1,15,1]].map(([k,l,u,mn,mx,st])=>(
+              {[["calories","칼로리","kcal",1000,3000,50],["carb","탄수화물","g",50,400,10],["protein","단백질","g",30,250,5],["fat","지방","g",20,150,5],["water","수분(잔)","잔",1,15,1]].map(([k,l,u,mn,mx,st]) => (
                 <div key={k} style={{marginBottom:14}}>
                   <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"rgba(255,255,255,0.45)",marginBottom:4}}>
                     <span>{l}</span><span style={{fontWeight:700,color:"#a5b4fc"}}>{g[k]+" "+u}</span>
                   </div>
-                  <input type="range" min={mn} max={mx} step={st} value={g[k]} onChange={e=>setGoal(k,e.target.value)} style={{width:"100%",accentColor:"#6366f1"}}/>
+                  <input type="range" min={mn} max={mx} step={st} value={g[k]}
+                    onChange={e => setGoal(k,e.target.value)}
+                    style={{width:"100%",accentColor:"#6366f1"}}/>
                 </div>
               ))}
             </div>
@@ -779,36 +780,47 @@ function DietTracker(){
               <div style={{fontSize:11,fontWeight:700,marginBottom:6,color:"rgba(99,102,241,0.6)"}}>{"📥 데이터 내보내기"}</div>
               <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",marginBottom:8}}>기록된 데이터를 다운로드합니다.</div>
               <div style={{display:"flex",gap:8}}>
-                <button onClick={()=>{
-                  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-                  const url=URL.createObjectURL(blob);const a=document.createElement("a");
-                  a.href=url;a.download="diet-tracker-"+getToday()+".json";a.click();URL.revokeObjectURL(url);
-                }} style={{...s.btn,padding:"8px 16px",fontSize:11,background:"rgba(99,102,241,0.12)",color:"#a5b4fc",border:"1px solid rgba(99,102,241,0.2)"}}>JSON</button>
-                <button onClick={()=>{
-                  const rows=[["날짜","Day","주차","먹은음식","칼로리합","탄수화물","단백질","지방","운동항목","운동메모","체크리스트","체중","체지방%","골격근","평가","메모"]];
-                  PLAN_RAW.forEach(p=>{
-                    const dn=daysBetween("2026-04-09",p.d)+1;
-                    const fds=(data.entries[p.d]||[]).filter(e=>e.type==="food");
-                    const foodNames=fds.map(f=>f.name+"("+f.cal+"kcal)").join(" / ")||"";
-                    const t=fds.reduce((a,f)=>({cal:a.cal+(f.cal||0),carb:a.carb+(f.carb||0),pro:a.pro+(f.protein||0),fat:a.fat+(f.fat||0)}),{cal:0,carb:0,pro:0,fat:0});
-                    const exChips=Object.entries(data.exerciseChips[p.d]||{}).filter(([,v])=>v).map(([k])=>k).join(" / ")||"";
-                    const exMemo=(data.exerciseMemo[p.d]||"").replace(/\n/g," ");
-                    const ckList=CHECKS_LIST.filter(c=>(data.checks[p.d]||{})[c.key]).map(c=>c.label).join(" / ")||"";
-                    const ib=data.inbody[p.d]||{};const rt=data.ratings[p.d]||"";const memo=(data.memos[p.d]||"").replace(/\n/g," ");
+                <button onClick={() => {
+                  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url; a.download = "diet-tracker-"+getToday()+".json"; a.click();
+                  URL.revokeObjectURL(url);
+                }} style={{...s.btn,padding:"8px 16px",fontSize:11,background:"rgba(99,102,241,0.12)",color:"#a5b4fc",border:"1px solid rgba(99,102,241,0.2)"}}>
+                  JSON
+                </button>
+                <button onClick={() => {
+                  const rows = [["날짜","Day","주차","먹은음식","칼로리합","탄수화물","단백질","지방","운동항목","운동메모","체크리스트","체중","체지방%","골격근","평가","메모"]];
+                  PLAN_RAW.forEach(p => {
+                    const dn = daysBetween("2026-04-09",p.d)+1;
+                    const foods = (data.entries[p.d]||[]).filter(e=>e.type==="food");
+                    const foodNames = foods.map(f=>f.name+"("+f.cal+"kcal)").join(" / ") || "";
+                    const t = foods.reduce((a,f)=>({cal:a.cal+(f.cal||0),carb:a.carb+(f.carb||0),pro:a.pro+(f.protein||0),fat:a.fat+(f.fat||0)}),{cal:0,carb:0,pro:0,fat:0});
+                    const exChips = Object.entries(data.exerciseChips[p.d]||{}).filter(([,v])=>v).map(([k])=>k).join(" / ") || "";
+                    const exMemo = (data.exerciseMemo[p.d]||"").replace(/\n/g," ");
+                    const ckList = CHECKS_LIST.filter(c=>(data.checks[p.d]||{})[c.key]).map(c=>c.label).join(" / ") || "";
+                    const ib = data.inbody[p.d]||{};
+                    const rt = data.ratings[p.d]||"";
+                    const memo = (data.memos[p.d]||"").replace(/\n/g," ");
                     rows.push([p.d,dn,p.phase,foodNames,t.cal,t.carb,t.pro,t.fat,exChips,exMemo,ckList,ib.weight||"",ib.fatPct||"",ib.muscle||"",rt==="good"?"잘했다":rt==="ok"?"보통":rt==="bad"?"아쉬움":"",memo]);
                   });
-                  let csv="\uFEFF";rows.forEach(r=>{csv+=r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(",")+"\n";});
-                  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
-                  const url=URL.createObjectURL(blob);const a=document.createElement("a");
-                  a.href=url;a.download="diet-tracker-"+getToday()+".csv";a.click();URL.revokeObjectURL(url);
-                }} style={{...s.btn,padding:"8px 16px",fontSize:11,background:"rgba(16,185,129,0.12)",color:"#6ee7b7",border:"1px solid rgba(16,185,129,0.2)"}}>엑셀(CSV)</button>
+                  let csv = "\uFEFF";
+                  rows.forEach(r => { csv += r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(",") + "\n"; });
+                  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url; a.download = "diet-tracker-"+getToday()+".csv"; a.click();
+                  URL.revokeObjectURL(url);
+                }} style={{...s.btn,padding:"8px 16px",fontSize:11,background:"rgba(16,185,129,0.12)",color:"#6ee7b7",border:"1px solid rgba(16,185,129,0.2)"}}>
+                  엑셀(CSV)
+                </button>
               </div>
             </div>
 
             <div style={{...s.card,background:"rgba(239,68,68,0.04)",borderColor:"rgba(239,68,68,0.1)"}}>
               <div style={{fontSize:11,fontWeight:700,marginBottom:6,color:"rgba(239,68,68,0.6)"}}>{"🗑 데이터 초기화"}</div>
               <div style={{fontSize:10,color:"rgba(255,255,255,0.3)",marginBottom:8}}>모든 기록이 삭제됩니다.</div>
-              <button onClick={()=>{
+              <button onClick={async () => {
                 if(confirm("정말 모든 데이터를 초기화할까요?")){
                   setData({...EMPTY_DATA,goals:{...EMPTY_DATA.goals}});
                   try{localStorage.removeItem("diet-tracker-all");}catch(e){}
